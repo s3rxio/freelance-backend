@@ -21,16 +21,13 @@ export abstract class BaseService<TEntity extends BaseEntity> {
   }
 
   async findOne(options: FindOneOptions<TEntity>) {
-    try {
-      const record = this.repository.findOne(options);
-      if (!record) {
-        throw new NotFoundException(BaseMessage.NOT_FOUND);
-      }
+    const record = this.repository.findOne(options);
 
-      return record;
-    } catch (err) {
-      throw new BadRequestException(err);
+    if (!record) {
+      throw new NotFoundException(BaseMessage.NOT_FOUND);
     }
+
+    return record;
   }
 
   async findOneById(id: TEntity["id"], options?: FindOneOptions<TEntity>) {
@@ -53,7 +50,6 @@ export abstract class BaseService<TEntity extends BaseEntity> {
     const entity = await this.findOneById(id);
 
     Object.assign(entity, partialEntity);
-
     try {
       return await this.repository.save(entity);
     } catch (err) {

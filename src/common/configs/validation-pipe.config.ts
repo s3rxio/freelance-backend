@@ -1,5 +1,6 @@
 import { ValidationPipeOptions } from "@nestjs/common";
 
 export const validationPipeConfig: ValidationPipeOptions = {
-  skipMissingProperties: false
+  skipMissingProperties: false,
+  whitelist: true
 };
