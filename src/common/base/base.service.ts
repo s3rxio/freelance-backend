@@ -1,7 +1,13 @@
 import { NotFoundException, BadRequestException, Logger } from "@nestjs/common";
-import { Repository, FindManyOptions, FindOneOptions } from "typeorm";
+import {
+  Repository,
+  FindManyOptions,
+  FindOneOptions,
+  FindOptionsWhere
+} from "typeorm";
 import { BaseMessage } from "./base-message.enum";
 import { BaseEntity } from "./base.entity";
+import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 
 export abstract class BaseService<TEntity extends BaseEntity> {
   constructor(private readonly repository: Repository<TEntity>) {}
@@ -46,25 +52,34 @@ export abstract class BaseService<TEntity extends BaseEntity> {
     return record;
   }
 
-  async update(id: TEntity["id"], partialEntity: Partial<TEntity>) {
-    const entity = await this.findOneById(id);
-
-    Object.assign(entity, partialEntity);
+  async create(entity: TEntity) {
+    const obj = await this.repository.create(entity);
     try {
-      return await this.repository.save(entity);
+      return await this.repository.save(obj);
     } catch (err) {
-      throw new BadRequestException(err);
+      Logger.error(err);
+      throw new BadRequestException(err.detail);
     }
   }
 
-  async delete(id: number) {
-    const user = await this.findOneById(id);
-
+  async update(
+    criteria: TEntity["id"] | FindOptionsWhere<TEntity>,
+    partialEntity: QueryDeepPartialEntity<TEntity>
+  ) {
     try {
-      return await this.repository.remove(user);
-    } catch (error) {
-      Logger.error(error);
-      throw new NotFoundException(BaseMessage.NOT_FOUND, error);
+      return await this.repository.update(criteria, partialEntity);
+    } catch (err) {
+      Logger.error(err);
+      throw new BadRequestException(err.detail);
+    }
+  }
+
+  async delete(criteria: TEntity["id"] | FindOptionsWhere<TEntity>) {
+    try {
+      return await this.repository.delete(criteria);
+    } catch (err) {
+      Logger.error(err);
+      throw new NotFoundException(BaseMessage.NOT_FOUND, err.detail);
     }
   }
 }
