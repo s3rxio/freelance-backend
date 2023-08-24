@@ -5,6 +5,8 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
+import { User } from "./user/user.entity";
+import { UserModule } from "./user/user.module";
 
 @Module({
   imports: [
@@ -32,10 +34,11 @@ import { SnakeNamingStrategy } from "typeorm-naming-strategies";
           logger: "file",
           synchronize: true,
           namingStrategy: new SnakeNamingStrategy(),
-          entities: []
+          entities: [User]
         };
       }
-    })
+    }),
+    UserModule
   ],
   controllers: [AppController],
   providers: [
