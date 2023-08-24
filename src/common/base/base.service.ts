@@ -17,7 +17,7 @@ export abstract class BaseService<TEntity extends BaseEntity> {
   }
 
   async findMany(options?: FindManyOptions<TEntity>) {
-    const records = this.repository.find(options);
+    const records = await this.repository.find(options);
 
     if (!records) {
       throw new NotFoundException(BaseMessage.NOT_FOUND);
@@ -27,7 +27,7 @@ export abstract class BaseService<TEntity extends BaseEntity> {
   }
 
   async findOne(options: FindOneOptions<TEntity>) {
-    const record = this.repository.findOne(options);
+    const record = await this.repository.findOne(options);
 
     if (!record) {
       throw new NotFoundException(BaseMessage.NOT_FOUND);
@@ -53,7 +53,7 @@ export abstract class BaseService<TEntity extends BaseEntity> {
   }
 
   async create(entity: TEntity) {
-    const obj = await this.repository.create(entity);
+    const obj = this.repository.create(entity);
     try {
       return await this.repository.save(obj);
     } catch (err) {
