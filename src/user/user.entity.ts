@@ -1,4 +1,4 @@
-import { BaseEntity } from "@/common/base/base.entity";
+import { TimestampableEntity } from "@/common/entities/timestampable.entity";
 import { Exclude } from "class-transformer";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
@@ -7,7 +7,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
     id: "ASC"
   }
 })
-export class User extends BaseEntity {
+export class User extends TimestampableEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

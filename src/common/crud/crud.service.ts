@@ -5,11 +5,11 @@ import {
   FindOneOptions,
   FindOptionsWhere
 } from "typeorm";
-import { BaseMessage } from "./base-message.enum";
-import { BaseEntity } from "./base.entity";
+import { CrudMessage } from "./crud-message.enum";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
+import { CrudEntity } from "./crud.entity";
 
-export abstract class BaseService<TEntity extends BaseEntity> {
+export abstract class CrudService<TEntity extends CrudEntity> {
   constructor(private readonly repository: Repository<TEntity>) {}
 
   async findAll() {
@@ -20,7 +20,7 @@ export abstract class BaseService<TEntity extends BaseEntity> {
     const records = await this.repository.find(options);
 
     if (!records) {
-      throw new NotFoundException(BaseMessage.NOT_FOUND);
+      throw new NotFoundException(CrudMessage.NOT_FOUND);
     }
 
     return records;
@@ -30,7 +30,7 @@ export abstract class BaseService<TEntity extends BaseEntity> {
     const record = await this.repository.findOne(options);
 
     if (!record) {
-      throw new NotFoundException(BaseMessage.NOT_FOUND);
+      throw new NotFoundException(CrudMessage.NOT_FOUND);
     }
 
     return record;
@@ -46,7 +46,7 @@ export abstract class BaseService<TEntity extends BaseEntity> {
     } as FindOneOptions<TEntity>);
 
     if (!record) {
-      throw new NotFoundException(BaseMessage.NOT_FOUND);
+      throw new NotFoundException(CrudMessage.NOT_FOUND);
     }
 
     return record;
@@ -79,7 +79,7 @@ export abstract class BaseService<TEntity extends BaseEntity> {
       return await this.repository.delete(criteria);
     } catch (err) {
       Logger.error(err);
-      throw new NotFoundException(BaseMessage.NOT_FOUND, err.detail);
+      throw new NotFoundException(CrudMessage.NOT_FOUND, err.detail);
     }
   }
 }

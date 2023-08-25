@@ -1,4 +1,4 @@
-import { BaseService } from "@/common/base/base.service";
+import { CrudService } from "@/common/crud/crud.service";
 import {
   BadRequestException,
   Injectable,
@@ -12,7 +12,7 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 
 @Injectable()
-export class UserService extends BaseService<User> {
+export class UserService extends CrudService<User> {
   constructor(
     @InjectRepository(User) private readonly userRepo: Repository<User>
   ) {

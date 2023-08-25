@@ -7,6 +7,9 @@ import { APP_INTERCEPTOR } from "@nestjs/core";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 import { User } from "./user/user.entity";
 import { UserModule } from "./user/user.module";
+import { AuthModule } from "./auth/auth.module";
+import { RoleModule } from "./role/role.module";
+import { Role } from "./role/role.entity";
 
 @Module({
   imports: [
@@ -34,11 +37,13 @@ import { UserModule } from "./user/user.module";
           logger: "file",
           synchronize: true,
           namingStrategy: new SnakeNamingStrategy(),
-          entities: [User]
+          entities: [User, Role]
         };
       }
     }),
-    UserModule
+    UserModule,
+    AuthModule,
+    RoleModule
   ],
   controllers: [AppController],
   providers: [

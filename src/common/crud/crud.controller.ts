@@ -9,12 +9,12 @@ import {
   Patch,
   Post
 } from "@nestjs/common";
-import { BaseEntity } from "./base.entity";
-import { BaseService } from "./base.service";
+import { CrudEntity } from "./crud.entity";
+import { CrudService } from "./crud.service";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 
-export class BaseController<TEntity extends BaseEntity> {
-  constructor(private readonly service: BaseService<TEntity>) {}
+export class CrudController<TEntity extends CrudEntity> {
+  constructor(private readonly service: CrudService<TEntity>) {}
 
   @Get()
   async findAll() {
