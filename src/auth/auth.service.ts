@@ -13,16 +13,23 @@ export class AuthService {
   ) {}
 
   async signIn(username: string, pass: string) {
-    const user = await this.userService.findOne({ where: { username } });
-    if (!bcrypt.compareSync(pass, user.password)) {
+    try {
+      const user = await this.userService.findOne({
+        where: { username }
+      });
+
+      if (!bcrypt.compareSync(pass, user.password)) {
+        throw null;
+      }
+
+      return {
+        token: await this.generateToken(user)
+      };
+    } catch {
       throw new UnauthorizedException(
         "Your username or password is incorrect!"
       );
     }
-
-    return {
-      token: await this.generateToken(user)
-    };
   }
 
   async signUp(createDto: CreateUserDto) {
@@ -37,10 +44,9 @@ export class AuthService {
     };
   }
 
-  private async generateToken(user: Partial<User>) {
+  private async generateToken(user: User) {
     const payload = {
-      username: user.username,
-      email: user.email
+      id: user.id
     };
 
     return this.jwtService.sign(payload);

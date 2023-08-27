@@ -9,15 +9,15 @@ import {
   Param,
   ParseIntPipe,
   Patch,
-  Post,
-  UseGuards
+  Post
 } from "@nestjs/common";
 import { User } from "./user.entity";
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { AuthGuard } from "@/auth/auth.guard";
+import { Auth } from "@/auth/auth.decorator";
 
+@Auth("ADMIN")
 @Controller("users")
 export class UserController extends CrudController<User> {
   constructor(private userService: UserService) {
@@ -25,13 +25,19 @@ export class UserController extends CrudController<User> {
   }
 
   @Get()
-  @UseGuards(AuthGuard)
   async findAll() {
     return this.userService.findAll();
   }
 
+  // TODO: Make a separate user-me controller
+  @Auth()
+  @Get("/me")
+  async findMe() {
+    return this.userService.findMe();
+  }
+
+  // TODO: Make Public decorator
   @Get(":id")
-  @UseGuards(AuthGuard)
   async findOneById(@Param("id", ParseIntPipe) id: number) {
     return this.userService.findOneById(id);
   }
@@ -42,8 +48,23 @@ export class UserController extends CrudController<User> {
     return this.userService.create(createDto);
   }
 
+  @Post("/:id/role")
+  async addRole(
+    @Param("id", ParseIntPipe) id: number,
+    @Body() data: { roleName: string }
+  ) {
+    return this.userService.addRole(id, data.roleName);
+  }
+
+  @Delete("/:id/role")
+  async removeRole(
+    @Param("id", ParseIntPipe) id: number,
+    @Body() data: { roleName: string }
+  ) {
+    return this.userService.removeRole(id, data.roleName);
+  }
+
   @Patch(":id")
-  @UseGuards(AuthGuard)
   async update(
     @Param("id", ParseIntPipe) id: number,
     @Body() updateDto: UpdateUserDto
@@ -56,8 +77,7 @@ export class UserController extends CrudController<User> {
     return this.userService.delete(id);
   }
 
-  @Post("/reset")
-  @UseGuards(AuthGuard)
+  @Delete("/reset")
   async reset() {
     return this.userService.reset();
   }

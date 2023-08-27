@@ -1,34 +1,51 @@
 import { CrudService } from "@/common/crud/crud.service";
 import {
   BadRequestException,
+  Inject,
   Injectable,
-  Logger,
-  NotFoundException
+  NotFoundException,
+  Scope,
+  UnauthorizedException
 } from "@nestjs/common";
 import { User } from "./user.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { FindOptionsWhere, Repository } from "typeorm";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
+import { REQUEST } from "@nestjs/core";
+import { RoleService } from "@/role/role.service";
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class UserService extends CrudService<User> {
   constructor(
-    @InjectRepository(User) private readonly userRepo: Repository<User>
+    @Inject(REQUEST) private req: Request,
+    @InjectRepository(User) private readonly userRepo: Repository<User>,
+    private roleService: RoleService
   ) {
     super(userRepo);
+  }
+
+  async findMe() {
+    const user: User = this.req["user"];
+
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    return await this.findOneById(user.id, {
+      relations: ["roles"]
+    }).catch(() => {
+      throw new UnauthorizedException();
+    });
   }
 
   async create(createDto: CreateUserDto) {
     const user = this.userRepo.create(createDto);
     await this.checkUser(user);
 
-    try {
-      return this.userRepo.save(user);
-    } catch (err) {
-      Logger.error(err);
-      throw new BadRequestException(err.details);
-    }
+    return await this.userRepo.save(user).catch(() => {
+      throw new BadRequestException();
+    });
   }
 
   async update(
@@ -52,11 +69,51 @@ export class UserService extends CrudService<User> {
   }
 
   async reset() {
-    const ids = (await this.findMany({ select: ["id"] })).map(user => user.id);
-    if (ids.length <= 0) {
+    const users = await this.findMany({ select: ["id"] });
+    if (users.length <= 0) {
       throw new NotFoundException("So and so there are no users!");
     }
+    const ids = users.map(user => user.id);
     return await this.userRepo.delete(ids);
+  }
+
+  async addRole(id: number, name: string) {
+    const user = await this.findOneById(id, { relations: ["roles"] });
+    const role = await this.roleService.findOne({ where: { name } });
+
+    if (user.roles.some(userRole => userRole.id === role.id)) {
+      throw new BadRequestException("The user already has this role");
+    }
+
+    user.roles.push(role);
+    await user.save();
+
+    this.req["user"] = user.roles;
+
+    return {
+      message: "Role added!"
+    };
+  }
+
+  async removeRole(id: number, name: string) {
+    const user = await this.findOneById(id, {
+      relations: ["roles"]
+    });
+    const role = await this.roleService.findOne({ where: { name } });
+
+    const index = user.roles.findIndex(userRole => userRole.id === role.id);
+    if (index < 0) {
+      throw new BadRequestException("The user does not have this role");
+    }
+
+    user.roles.splice(index, 1);
+    await user.save();
+
+    this.req["user"] = user.roles;
+
+    return {
+      message: "Role removed!"
+    };
   }
 
   async checkUser(user: Partial<User>) {

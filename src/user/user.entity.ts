@@ -1,6 +1,13 @@
 import { TimestampableEntity } from "@/common/entities/timestampable.entity";
+import { Role } from "@/role/role.entity";
 import { Exclude } from "class-transformer";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn
+} from "typeorm";
 
 @Entity("users", {
   orderBy: {
@@ -20,4 +27,8 @@ export class User extends TimestampableEntity {
   @Column()
   @Exclude({ toPlainOnly: true })
   password: string;
+
+  @ManyToMany(() => Role, role => role.users)
+  @JoinTable()
+  roles: Role[];
 }
