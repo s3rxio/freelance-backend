@@ -11,8 +11,8 @@ import {
 import { Role } from "./role.entity";
 import { RoleService } from "./role.service";
 import { Auth } from "@/auth/auth.decorator";
-import { CreateRoleDto } from "./dto/create-role.dto";
-import { UpdateRoleDto } from "./dto/update-role.dto";
+import { CreateRoleDto } from "./dtos/create-role.dto";
+import { UpdateRoleDto } from "./dtos/update-role.dto";
 
 @Auth("ADMIN")
 @Controller("roles")
