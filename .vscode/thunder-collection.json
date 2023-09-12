@@ -1,0 +1,262 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Freelance",
+    "dateExported": "2023-09-12T15:18:25.956Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "52ec558a-a89c-4aa6-9055-167dd620da2c",
+            "name": "auth",
+            "containerId": "",
+            "created": "2023-09-03T19:14:44.026Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "68a19cf8-b254-48ee-962b-96500f7d2ffa",
+            "name": "users",
+            "containerId": "",
+            "created": "2023-09-03T19:18:20.018Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "49b17bee-74f8-4431-9060-95a4d0209e26",
+            "name": "roles",
+            "containerId": "",
+            "created": "2023-09-12T14:54:45.941Z",
+            "sortNum": 30000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "f7188add-86ea-4000-a85b-f88ffc68f858",
+            "colId": "ebec7a66-05e4-4db7-b976-f2b7442ab7bf",
+            "containerId": "",
+            "name": "getHello",
+            "url": "/",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2023-09-03T19:13:54.843Z",
+            "modified": "2023-09-03T19:15:20.493Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "ab60f876-a526-4f76-9062-0cd2a662a938",
+            "colId": "ebec7a66-05e4-4db7-b976-f2b7442ab7bf",
+            "containerId": "68a19cf8-b254-48ee-962b-96500f7d2ffa",
+            "name": "create",
+            "url": "/users",
+            "method": "POST",
+            "sortNum": 35000,
+            "created": "2023-09-11T06:15:13.121Z",
+            "modified": "2023-09-12T15:16:41.516Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"user\",\n  \"email\": \"user@gmail.com\",\n  \"password\": \"testPass01@\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "a3c5d4c0-2596-4664-8e26-fae0bbd1cf84",
+            "colId": "ebec7a66-05e4-4db7-b976-f2b7442ab7bf",
+            "containerId": "52ec558a-a89c-4aa6-9055-167dd620da2c",
+            "name": "sign-in",
+            "url": "/auth/sign-in",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2023-09-03T19:14:50.993Z",
+            "modified": "2023-09-12T15:16:24.299Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"user\",\n  \"password\": \"testPass01@\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "54d6cd33-27c1-40d6-aec7-f2012ee68ff6",
+            "colId": "ebec7a66-05e4-4db7-b976-f2b7442ab7bf",
+            "containerId": "52ec558a-a89c-4aa6-9055-167dd620da2c",
+            "name": "sign-up",
+            "url": "/auth/sign-up",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-09-03T19:14:58.982Z",
+            "modified": "2023-09-12T15:16:23.541Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"user\",\n  \"email\": \"user@gmail.com\",\n  \"password\": \"testPass01@\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "5f43c3f6-e118-4d3e-8125-c297748b52b6",
+            "colId": "ebec7a66-05e4-4db7-b976-f2b7442ab7bf",
+            "containerId": "68a19cf8-b254-48ee-962b-96500f7d2ffa",
+            "name": "get",
+            "url": "/users/me",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2023-09-03T19:18:44.257Z",
+            "modified": "2023-09-12T15:04:17.349Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "8c157eb8-c386-455c-8abe-687c96642378",
+            "colId": "ebec7a66-05e4-4db7-b976-f2b7442ab7bf",
+            "containerId": "68a19cf8-b254-48ee-962b-96500f7d2ffa",
+            "name": "update",
+            "url": "/users/me",
+            "method": "PATCH",
+            "sortNum": 80000,
+            "created": "2023-09-11T06:16:30.734Z",
+            "modified": "2023-09-12T15:17:18.077Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"user1\"\n  // \"email\": \"userUPDATED@gmail.com\",\n  // \"password\": \"testPass1\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "ffaa6195-7d8e-46b3-9a12-fe98b171af92",
+            "colId": "ebec7a66-05e4-4db7-b976-f2b7442ab7bf",
+            "containerId": "68a19cf8-b254-48ee-962b-96500f7d2ffa",
+            "name": "add-role",
+            "url": "/users/me/role",
+            "method": "POST",
+            "sortNum": 90000,
+            "created": "2023-09-11T08:03:33.070Z",
+            "modified": "2023-09-12T14:58:12.575Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"roleName\": \"admin\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "550363ee-a83f-4883-a438-9095ab632be1",
+            "colId": "ebec7a66-05e4-4db7-b976-f2b7442ab7bf",
+            "containerId": "68a19cf8-b254-48ee-962b-96500f7d2ffa",
+            "name": "remove-role",
+            "url": "/users/me/role",
+            "method": "DELETE",
+            "sortNum": 100000,
+            "created": "2023-09-12T14:53:31.581Z",
+            "modified": "2023-09-12T15:17:51.101Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"roleName\": \"admin\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "b2cb1e71-0d4d-4770-9db0-887eea53af18",
+            "colId": "ebec7a66-05e4-4db7-b976-f2b7442ab7bf",
+            "containerId": "49b17bee-74f8-4431-9060-95a4d0209e26",
+            "name": "create",
+            "url": "/roles",
+            "method": "POST",
+            "sortNum": 100000,
+            "created": "2023-09-12T14:55:19.353Z",
+            "modified": "2023-09-12T14:57:12.610Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"admin\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "433d99e0-3667-43d7-ae5e-b057d886957b",
+            "colId": "ebec7a66-05e4-4db7-b976-f2b7442ab7bf",
+            "containerId": "49b17bee-74f8-4431-9060-95a4d0209e26",
+            "name": "get",
+            "url": "/roles",
+            "method": "GET",
+            "sortNum": 110000,
+            "created": "2023-09-12T14:55:27.256Z",
+            "modified": "2023-09-12T15:08:24.776Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "2b66dff7-0f7a-461a-a6cf-673321ad0a6a",
+            "colId": "ebec7a66-05e4-4db7-b976-f2b7442ab7bf",
+            "containerId": "49b17bee-74f8-4431-9060-95a4d0209e26",
+            "name": "update",
+            "url": "/roles/1",
+            "method": "PATCH",
+            "sortNum": 120000,
+            "created": "2023-09-12T14:55:34.570Z",
+            "modified": "2023-09-12T15:18:16.390Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"ADMIN\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "976b7f57-3833-4167-b866-c14f967eada3",
+            "colId": "ebec7a66-05e4-4db7-b976-f2b7442ab7bf",
+            "containerId": "49b17bee-74f8-4431-9060-95a4d0209e26",
+            "name": "delete",
+            "url": "/roles/1",
+            "method": "DELETE",
+            "sortNum": 130000,
+            "created": "2023-09-12T14:55:49.867Z",
+            "modified": "2023-09-12T14:56:43.819Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "b9578eb9-1e3b-4bd4-999e-bba141d49371",
+            "colId": "ebec7a66-05e4-4db7-b976-f2b7442ab7bf",
+            "containerId": "68a19cf8-b254-48ee-962b-96500f7d2ffa",
+            "name": "delete",
+            "url": "/users/me",
+            "method": "DELETE",
+            "sortNum": 140000,
+            "created": "2023-09-12T15:00:42.982Z",
+            "modified": "2023-09-12T15:17:50.436Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        }
+    ],
+    "settings": {
+        "auth": {
+            "type": "bearer",
+            "bearer": "Paste your token here"
+        },
+        "options": {
+            "baseUrl": "http://localhost:3000"
+        }
+    }
+}
