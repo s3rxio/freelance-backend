@@ -11,14 +11,16 @@ import {
   Patch,
   Post
 } from "@nestjs/common";
-import { User } from "./user.entity";
-import { UserService } from "./user.service";
-import { CreateUserDto } from "./dto/create-user.dto";
-import { UpdateUserDto } from "./dto/update-user.dto";
+import { User } from "../user.entity";
+import { UserService } from "../user.service";
+import { CreateUserDto } from "../dtos/create-user.dto";
+import { UpdateUserDto } from "../dtos/update-user.dto";
 import { Auth } from "@/auth/auth.decorator";
+import { Public } from "@/common/decorators/public.decorator";
+import { AddRoleDto } from "../dtos/add-role.dto";
 
-@Auth("ADMIN")
-@Controller("users")
+@Auth("admin")
+@Controller("users/")
 export class UserController extends CrudController<User> {
   constructor(private userService: UserService) {
     super(userService);
@@ -29,14 +31,7 @@ export class UserController extends CrudController<User> {
     return this.userService.findAll();
   }
 
-  // TODO: Make a separate user-me controller
-  @Auth()
-  @Get("/me")
-  async findMe() {
-    return this.userService.findMe();
-  }
-
-  // TODO: Make Public decorator
+  @Public()
   @Get(":id")
   async findOneById(@Param("id", ParseIntPipe) id: number) {
     return this.userService.findOneById(id);
@@ -51,7 +46,7 @@ export class UserController extends CrudController<User> {
   @Post("/:id/role")
   async addRole(
     @Param("id", ParseIntPipe) id: number,
-    @Body() data: { roleName: string }
+    @Body() data: AddRoleDto
   ) {
     return this.userService.addRole(id, data.roleName);
   }
@@ -59,7 +54,7 @@ export class UserController extends CrudController<User> {
   @Delete("/:id/role")
   async removeRole(
     @Param("id", ParseIntPipe) id: number,
-    @Body() data: { roleName: string }
+    @Body() data: AddRoleDto
   ) {
     return this.userService.removeRole(id, data.roleName);
   }
@@ -75,10 +70,5 @@ export class UserController extends CrudController<User> {
   @Delete(":id")
   async delete(@Param("id", ParseIntPipe) id: number) {
     return this.userService.delete(id);
-  }
-
-  @Delete("/reset")
-  async reset() {
-    return this.userService.reset();
   }
 }

@@ -14,7 +14,7 @@ import { Auth } from "@/auth/auth.decorator";
 import { CreateRoleDto } from "./dtos/create-role.dto";
 import { UpdateRoleDto } from "./dtos/update-role.dto";
 
-@Auth("ADMIN")
+@Auth("admin")
 @Controller("roles")
 export class RoleController extends CrudController<Role> {
   constructor(private roleService: RoleService) {
