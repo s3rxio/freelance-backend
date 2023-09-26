@@ -216,7 +216,7 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"name\": \"ADMIN\"\n}",
+                "raw": "{\n  \"name\": \"admin\"\n}",
                 "form": []
             },
             "tests": []
